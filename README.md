@@ -1,2 +1,0 @@
-# BroCode
-Collaborative Coding
