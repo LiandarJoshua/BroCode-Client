@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 export const initSocket = () => {
-    return io('http://localhost:5000', {
+    return io('https://brocodeserver.glitch.me', {
         reconnectionDelay: 1000,
         reconnection: true,
         reconnectionAttempts: 5,
