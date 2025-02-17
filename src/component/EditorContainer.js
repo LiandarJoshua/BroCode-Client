@@ -1,7 +1,9 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect,useRef } from 'react';
 import { File, Code } from 'lucide-react';
 import Quill from 'quill';
 import "quill/dist/quill.snow.css";
+import QuillCursors from 'quill-cursors';
+
 
 const COLORS = [
   "#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff",
@@ -55,7 +57,10 @@ const TOOLBAR_OPTIONS = [
   ["image", "blockquote", "code-block"],
   ["clean"],
 ];
-
+const CURSOR_COLORS = [
+  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD',
+  '#D4A5A5', '#9B59B6', '#3498DB', '#E74C3C', '#2ECC71'
+];
 const SAVE_INTERVAL_MS = 2000;
 
 const DocumentEditor = ({ socketRef, roomId, editorRef }) => {
@@ -64,16 +69,19 @@ const DocumentEditor = ({ socketRef, roomId, editorRef }) => {
   const [activeEditor, setActiveEditor] = useState('document');
   const [users, setUsers] = useState([]);
   const documentContentRef = useRef(null);
-  const lastSavedDocumentContent = useRef(null);
-  
-  // Handle tab change with content preservation
+  const cursorsRef = useRef({});
+
   const handleTabChange = (newTab) => {
     if (quill && activeEditor === 'document') {
-      // Save document content to ref before switching from document
-      lastSavedDocumentContent.current = quill.getContents();
+      documentContentRef.current = quill.getContents();
+      socketRef.current.emit("save-document", documentContentRef.current);
     }
     setActiveEditor(newTab);
   };
+  
+  
+  
+
 
   const wrapperRef = useCallback(wrapper => {
     if (wrapper == null) return;
@@ -98,6 +106,7 @@ const DocumentEditor = ({ socketRef, roomId, editorRef }) => {
         }
       },
     });
+    
     
     // Add custom CSS
     const style = document.createElement('style');
@@ -169,89 +178,66 @@ const DocumentEditor = ({ socketRef, roomId, editorRef }) => {
     q.setText("Loading...");
     setQuill(q);
   }, []);
-
-  // Load document when first initialized or when switching back to document tab
   useEffect(() => {
-    if (quill && activeEditor === 'document') {
-      if (lastSavedDocumentContent.current) {
-        // Restore content from ref if available
-        quill.setContents(lastSavedDocumentContent.current);
-      } else if (documentContentRef.current) {
-        // Use document content from the initial load
-        quill.setContents(documentContentRef.current);
-      }
-    }
-  }, [activeEditor, quill]);
-
-  // Initial document loading from socket
-  useEffect(() => {
-    if (socketRef.current == null || quill == null || isLoaded) return;
-
-    socketRef.current.once("load-document", document => {
-      const documentContent = document || { ops: [] };
-      quill.setContents(documentContent);
-      documentContentRef.current = documentContent;
-      lastSavedDocumentContent.current = documentContent;
+    if (!socketRef.current || !quill) return;
+  
+    socketRef.current.emit("DOC_JOIN", {
+      roomId,
+      username: "User" // Or pass in actual username
+    });
+  
+    socketRef.current.on("DOC_INIT", ({ document, clients }) => {
+      quill.setContents(document || { ops: [] });
       quill.enable();
       setIsLoaded(true);
     });
-
-    socketRef.current.emit("get-document", roomId);
   }, [socketRef, quill, roomId]);
-
-  // Periodically save document to server
   useEffect(() => {
-    if (socketRef.current == null || quill == null || !isLoaded || activeEditor !== 'document') return;
-
+    if (quill && activeEditor === 'document' && documentContentRef.current) {
+      quill.setContents(documentContentRef.current);
+    }
+  }, [activeEditor, quill]);
+  
+  useEffect(() => {
+    if (socketRef.current == null || quill == null || !isLoaded) return;
+  
     const interval = setInterval(() => {
-      const currentContent = quill.getContents();
-      socketRef.current.emit("save-document", currentContent);
-      // Update the saved content reference
-      lastSavedDocumentContent.current = currentContent;
+      const content = quill.getContents();
+      socketRef.current.emit("DOC_CHANGE", {
+        delta: content,
+        roomId
+      });
     }, SAVE_INTERVAL_MS);
-
+  
     return () => clearInterval(interval);
-  }, [socketRef, quill, isLoaded, activeEditor]);
+  }, [socketRef, quill, isLoaded, roomId]);
+  
 
-  // Handle receiving changes from other users
   useEffect(() => {
     if (socketRef.current == null || quill == null || !isLoaded) return;
 
     const handler = delta => {
-      if (activeEditor === 'document') {
-        quill.updateContents(delta);
-      } else {
-        // If we're on code editor, update the saved content ref without applying changes to editor
-        if (lastSavedDocumentContent.current) {
-          // Apply delta to stored content (simplified)
-          // This is a simplified approach - for full correctness, you'd need to
-          // properly apply the delta to the stored document
-          socketRef.current.once("load-document", document => {
-            lastSavedDocumentContent.current = document;
-          });
-          socketRef.current.emit("get-document", roomId);
-        }
-      }
+      quill.updateContents(delta);
     };
 
-    socketRef.current.on("receive-changes", handler);
-    return () => socketRef.current.off("receive-changes", handler);
-  }, [socketRef, quill, isLoaded, activeEditor, roomId]);
+    socketRef.current.on("DOC_RECEIVE_CHANGES", handler);
+    return () => socketRef.current.off("DOC_RECEIVE_CHANGES", handler);
+  }, [socketRef, quill, isLoaded]);
 
-  // Send changes to server when user edits document
   useEffect(() => {
-    if (socketRef.current == null || quill == null || !isLoaded || activeEditor !== 'document') return;
+    if (!socketRef.current || !quill || !isLoaded) return;
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
-      socketRef.current.emit("send-changes", delta);
-      // Update our local saved copy
-      lastSavedDocumentContent.current = quill.getContents();
+      socketRef.current.emit("DOC_CHANGE", {
+        delta,
+        roomId
+      });
     };
 
     quill.on("text-change", handler);
     return () => quill.off("text-change", handler);
-  }, [socketRef, quill, isLoaded, activeEditor]);
+  }, [socketRef, quill, isLoaded, roomId]);
 
   return (
     <div className="flex flex-col h-full">
@@ -262,8 +248,8 @@ const DocumentEditor = ({ socketRef, roomId, editorRef }) => {
       <div className="flex-1">
         {activeEditor === 'document' ? (
           <div className={`${activeEditor === 'document' ? 'block' : 'hidden'} fixed inset-0 bg-white`}>
-            <div className="h-full" ref={wrapperRef}></div>
-          </div>
+          <div className="h-full" ref={wrapperRef}></div>
+        </div>
         ) : (
           <div className={`h-full ${activeEditor === 'code' ? 'block' : 'hidden'}`} ref={editorRef}></div>
         )}
