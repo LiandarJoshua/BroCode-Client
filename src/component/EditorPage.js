@@ -14,7 +14,7 @@
   import EditorHeader from './EditorHeader';
   
 
-  const API_BASE_URL = 'http://127.0.0.1:5000/api';
+  const API_BASE_URL = 'https://brocode-z3w9.onrender.com/api';
 
   const LANGUAGES = [
     "python3", "java", "cpp", "nodejs", "c", "ruby", "go", "scala", "bash", "sql",
