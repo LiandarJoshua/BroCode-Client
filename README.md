@@ -47,5 +47,5 @@ The entire platform is hosted and deployed on **Render**, ensuring high availabi
 * **Code Analysis & Debugging**: Groq
 * **Compiler**: JDoodle
 * **API Testing**: Postman
-* **Deployment**: Render
+* **Deployment**: Render,Vercel,Glitch(server)
   
