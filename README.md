@@ -6,9 +6,11 @@
 
 BroCode integrates **WebSockets** for live editing, **Groq** for code analysis and debugging, **JDoodle** for compiling code, and includes a **room key system** for creating private collaborative spaces.
 
-The platform operates on a **client-server architecture**, with a **Flask API** that powers the backend services and is deployed on **Render**. All API endpoints are rigorously tested using **Postman**.
+The platform operates on a **client-server architecture**, with a **Flask API** that powers the backend services and is deployed on **Render**. All API endpoints are rigorously tested using **Postman**. The websocket server has been deployed on glitch.
 
 Deployed Site on Vercel: https://brocodee.vercel.app/
+
+Server Code: https://github.com/JoshuxVro/BroCode-Server-Code
 
 ## Features
 
