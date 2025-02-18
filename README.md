@@ -35,13 +35,13 @@ Each user can create or join private collaboration rooms using a unique room key
 ### 7. Voice Chat Feature
 Utilizes websocket to create a roomcall to allow users working as a team to communicate with each other vocally.
 
-### 7. Flask API & Client-Server Architecture
+### 8. Flask API & Client-Server Architecture
 BroCode uses a **Flask API** to handle all backend logic, running on a scalable client-server architecture. The platform uses WebSockets for real-time communication and interaction between clients.
 
-### 8. API Testing with Postman
+### 9. API Testing with Postman
 All API endpoints are thoroughly tested using **Postman** to ensure reliability and performance.
 
-### 9. Deployed on Render
+### 10. Deployed on Render and Vercel
 The entire platform is hosted and deployed on **Render**, ensuring high availability and scalability for users.
 
 ## Technologies
