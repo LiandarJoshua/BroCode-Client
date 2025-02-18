@@ -10,7 +10,7 @@ The platform operates on a **client-server architecture**, with a **Flask API** 
 
 Deployed Site on Vercel: https://brocodee.vercel.app/
 
-Server Code: https://github.com/JoshuxVro/BroCode-Server-Code
+Server and API Code: https://github.com/JoshuxVro/BroCode-Server-Code
 
 ## Features
 
