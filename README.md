@@ -8,6 +8,8 @@ BroCode integrates **WebSockets** for live editing, **Groq** for code analysis a
 
 The platform operates on a **client-server architecture**, with a **Flask API** that powers the backend services and is deployed on **Render**. All API endpoints are rigorously tested using **Postman**.
 
+Deployed Site on Vercel: https://brocodee.vercel.app/
+
 ## Features
 
 ### 1. Real-Time Code Editing
