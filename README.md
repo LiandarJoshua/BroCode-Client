@@ -1,75 +1,49 @@
-<<<<<<< HEAD
-# BroCode
-Collaborative Coding
-=======
-# Getting Started with Create React App
+# BroCode - Collaborative Coding Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+**BroCode** is a cutting-edge collaborative coding platform designed for real-time code editing, project collaboration, and seamless interaction between developers. The platform provides an intuitive environment for teams to collaborate on coding projects with advanced features, including code analysis, debugging, real-time chat, and code completion recommendations.
 
-In the project directory, you can run:
+BroCode integrates **WebSockets** for live editing, **Groq** for code analysis and debugging, **JDoodle** for compiling code, and includes a **room key system** for creating private collaborative spaces.
 
-### `npm start`
+The platform operates on a **client-server architecture**, with a **Flask API** that powers the backend services and is deployed on **Render**. All API endpoints are rigorously tested using **Postman**.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Real-Time Code Editing
+BroCode allows users to edit code simultaneously in real-time. Changes made by one user are instantly reflected across all users in the same room.
 
-### `npm test`
+### 2. Groq Chatbot
+The platform features a **Groq-based chatbot** to assist users with coding questions, error fixes, and debugging insights.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. Code Analysis and Debugging
+Using **Groq**, BroCode provides advanced code analysis and error detection tools to help developers spot issues early and optimize their code.
 
-### `npm run build`
+### 4. Code Compiler (JDoodle)
+BroCode integrates **JDoodle**, a third-party compiler, to run code in multiple programming languages and provide real-time feedback on syntax errors and runtime issues.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 5. Code Completion Recommendations
+The platform offers intelligent code completion suggestions to speed up coding and improve productivity.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 6. Room Key System
+Each user can create or join private collaboration rooms using a unique room key. This ensures secure and private coding sessions.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 7. Flask API & Client-Server Architecture
+BroCode uses a **Flask API** to handle all backend logic, running on a scalable client-server architecture. The platform uses WebSockets for real-time communication and interaction between clients.
 
-### `npm run eject`
+### 8. API Testing with Postman
+All API endpoints are thoroughly tested using **Postman** to ensure reliability and performance.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 9. Deployed on Render
+The entire platform is hosted and deployed on **Render**, ensuring high availability and scalability for users.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Technologies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> 297e0a7 (Initial commit)
+* **Frontend**: HTML, CSS, JavaScript, WebSockets
+* **Backend**: Flask (Python)
+* **Real-Time Communication**: WebSockets
+* **Code Analysis & Debugging**: Groq
+* **Compiler**: JDoodle
+* **API Testing**: Postman
+* **Deployment**: Render
+  
