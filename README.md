@@ -32,6 +32,9 @@ The platform offers intelligent code completion suggestions to speed up coding a
 ### 6. Room Key System
 Each user can create or join private collaboration rooms using a unique room key. This ensures secure and private coding sessions.
 
+### 7. Voice Chat Feature
+Utilizes websocket to create a roomcall to allow users working as a team to communicate with each other vocally.
+
 ### 7. Flask API & Client-Server Architecture
 BroCode uses a **Flask API** to handle all backend logic, running on a scalable client-server architecture. The platform uses WebSockets for real-time communication and interaction between clients.
 
